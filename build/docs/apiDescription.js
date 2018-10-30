@@ -13,10 +13,10 @@ var apiDescription = exports.apiDescription = {
       example: '/'
     }, {
       description: 'Mic.ro redirection service that will redirect to saved URL',
-      route: '/slug',
+      route: '/[slug]',
       method: 'get',
-      example: '/JodK7G0'
-    }, { route: '/shrink',
+      example: '/Jod7G0'
+    }, { route: '/v1/shrink',
       description: 'Accepts url-encoded string that is stored in a database then returns the shortened version',
       method: 'post',
       example: '/shrink',

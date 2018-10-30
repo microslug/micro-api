@@ -5,9 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.lookupDestination = exports.testPage = exports.redirectSlugToUrl = exports.addNewURL = exports.apiHelp = undefined;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; // import redis
-
-
 var _microModel = require('../models/microModel');
 
 var _apiDescription = require('../docs/apiDescription');
@@ -20,8 +17,8 @@ var _renderTestPage = require('../views/renderTestPage');
 
 var _serviceNotAvailable = require('../views/serviceNotAvailable');
 
+// import redis
 var apiHelp = exports.apiHelp = function apiHelp(req, res) {
-  console.log('This is the api help', _apiDescription.apiDescription);
   res.setHeader('Content-Type', 'application/json');
   res.json(_apiDescription.apiDescription);
 };
@@ -56,7 +53,6 @@ var redirectSlugToUrl = exports.redirectSlugToUrl = function redirectSlugToUrl(r
   _logger.logger.info('Controller: redirectSlugToUrl: slug = ' + req.params.slug);
   var url = (0, _microModel.getUrlFromSlug)(req.params.slug).then(function (url) {
     _logger.logger.info('Controller: redirectSlugToUrl: url = ' + url);
-    console.log(typeof url === 'undefined' ? 'undefined' : _typeof(url));
     if (url) {
       res.redirect(301, url);
     } else {
@@ -64,17 +60,33 @@ var redirectSlugToUrl = exports.redirectSlugToUrl = function redirectSlugToUrl(r
     }
   }, function (error) {
     _logger.logger.error('redirectSlugToUrl: ', error);
-    if (!error) {
+    if (error) {
       res.status(503).end((0, _serviceNotAvailable.renderServiceNotAvailable)());
     }
   });
 };
+
+// export const status = (req, res) => {
+//   getStatus()
+//     .then ((result) => {
+//       logger.log('info','getStatus: result = ',result);
+//       res.setHeader('Content-Type', 'application/json');
+//       res.json(result);
+//     }, (error) => {
+//       logger.error('Status: ',error);
+//       if (error) {
+//         res.setHeader('Content-Type', 'application/json');
+//         res.json({error: 'Database not available.'});
+//       }
+//     }
+//     );
+// };
+
 var testPage = exports.testPage = function testPage(req, res) {
   res.end((0, _renderTestPage.renderTestPage)());
 };
 
 var lookupDestination = exports.lookupDestination = function lookupDestination(req, res) {
-  console.log('reading from db', Contact, ' with ', req.params.slug);
   var DBresponse = 'fake response from DB';
   res.json(DBresponse);
 };

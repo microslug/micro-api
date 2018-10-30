@@ -14,7 +14,6 @@ var _logger = require('../utils/logger');
 // /v1/shrink   = shorten url (body contains encoded long URL)
 // /v1/lookup/de3df3 = lookup slug
 
-
 // extract this into env vars
 var APIVERSION = 'v1';
 var SHRINKAPI = 'shrink';
@@ -38,6 +37,10 @@ var routes = function routes(app) {
   .delete(function (req, res) {
     return res.send('DELETE request successfull!!');
   });
+  // future version
+  // app.route(`/${APIVERSION}/status`)
+  //   .get(status);
+
   app.route('/testPage').get(_microController.testPage);
 
   app.route('*').get(function (req, res) {

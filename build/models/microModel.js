@@ -13,10 +13,13 @@ var _logger = require('../utils/logger');
 
 var _getDestinationUrl = require('./getDestinationUrl');
 
+// import { getDatabaseSize } from './getDatabaseSize';
+
+
 /********************************************************************************
  *
  * Models
- * our Schema
+ * Simple DB Schema
  * --slug
  * --destination
  ********************************************************************************/
@@ -28,7 +31,7 @@ var writeNewUrl = exports.writeNewUrl = function writeNewUrl(url) {
     (0, _slugCreator.generateSlug)(_initDB.db, url).then(function (slug) {
       _logger.logger.info('generateSlug: Got new slug ' + slug);
       var reply = {
-        microURL: '' + process.env.PROTOCOL + process.env.HOST + ':' + process.env.PORT + '/' + slug,
+        microURL: process.env.MICRO_URL + '/' + slug,
         destinationURL: url,
         slug: slug,
         write: 'ok'
@@ -51,7 +54,7 @@ var getUrlFromSlug = exports.getUrlFromSlug = function getUrlFromSlug(slug) {
       _logger.logger.info('  Model: getUrlFromSlug: url=' + url);
       resolve(url);
     })
-    // FIX this!!
+    // Url bad
     .catch(function (url) {
       _logger.logger.error('  Model: getUrlFromSlug: url=' + url);
       url = 'bad';
@@ -59,4 +62,24 @@ var getUrlFromSlug = exports.getUrlFromSlug = function getUrlFromSlug(slug) {
     });
   });
 };
+
+// export const getStatus = () => {
+//   //console.log('getUrlFromSlug, Database size: ',dbKeySize);
+//   logger.info('  Model: getStatus:',dbConnected);
+//   if (!dbConnected) return Promise.reject(false);
+//   logger.info('  Model: getStatus: HERE',dbConnected);
+//
+//   return new Promise( (resolve,reject) => {
+//     console.log('ok')
+//     const status = getDatabaseSize(db)
+//       .then((status) =>{
+//         logger.info('  Model: getStatus: status='+status);
+//         resolve (status);
+//       })
+//       .catch((status) => {
+//         logger.error('  Model: getStatus: status='+status);
+//         resolve(status);
+//       });
+//   });
+// };
 //# sourceMappingURL=microModel.js.map
