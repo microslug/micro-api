@@ -21,13 +21,13 @@ We use the following model:
 * slug
 * destinationURL
 
-The micro-api is a REST api and redirection service that stores and retrieves data from a database.
+The micro-api is a stateless REST api and redirection service that stores and retrieves data from a database.
 It is responsible for the following:
-* Accept a encoded URL string, generates a 6 character hash and return a shortened URL (slug).
-* Redirect slugs to destination URLs and updates the link expiry date.
+* Accept a encoded URL string, generates a 6 character hash and returns a shortened URL (slug).
+* Redirect slugs to destination URLs and resets the link expiry date.
 
-Micro-api is a stateless application and generates the slugs from a sequential integer stored in Redis.
-The integer is hashed and bit shifted to appear random.  It is then converted to a base62 number that becomes the slug.
+The api generates slugs from a sequential integer stored in Redis.
+The integer is hashed and bit shifted to appear random.  It is then converted to a base62 number.
 
 
 Usage
