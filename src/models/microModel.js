@@ -1,7 +1,7 @@
 /********************************************************************************
  *
  * Models
- * our Schema
+ * Simple DB Schema
  * --slug
  * --destination
  ********************************************************************************/
@@ -11,7 +11,7 @@ import { db, dbConnected } from './initDB';
 import { generateSlug } from './slugCreator';
 import { logger } from '../utils/logger';
 import { getDestinationUrl } from './getDestinationUrl';
-
+// import { getDatabaseSize } from './getDatabaseSize';
 
 
 
@@ -23,7 +23,7 @@ export const writeNewUrl = (url) => {
       .then((slug) =>{
         logger.info('generateSlug: Got new slug '+slug);
         const reply = {
-          microURL: `${process.env.PROTOCOL}${process.env.HOST}:${process.env.PORT}/${slug}`,
+          microURL: `${process.env.MICRO_URL}/${slug}`,
           destinationURL: url,
           slug,
           write: 'ok'
@@ -48,7 +48,7 @@ export const getUrlFromSlug = (slug) => {
         logger.info('  Model: getUrlFromSlug: url='+url);
         resolve (url);
       })
-      // FIX this!!
+      // Url bad
       .catch((url) => {
         logger.error('  Model: getUrlFromSlug: url='+url);
         url = 'bad';
@@ -56,3 +56,23 @@ export const getUrlFromSlug = (slug) => {
       });
   });
 };
+
+// export const getStatus = () => {
+//   //console.log('getUrlFromSlug, Database size: ',dbKeySize);
+//   logger.info('  Model: getStatus:',dbConnected);
+//   if (!dbConnected) return Promise.reject(false);
+//   logger.info('  Model: getStatus: HERE',dbConnected);
+//
+//   return new Promise( (resolve,reject) => {
+//     console.log('ok')
+//     const status = getDatabaseSize(db)
+//       .then((status) =>{
+//         logger.info('  Model: getStatus: status='+status);
+//         resolve (status);
+//       })
+//       .catch((status) => {
+//         logger.error('  Model: getStatus: status='+status);
+//         resolve(status);
+//       });
+//   });
+// };

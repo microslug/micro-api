@@ -6,7 +6,6 @@ import { renderPageNotFound} from '../views/pageNotFound';
 import { renderTestPage } from '../views/renderTestPage';
 import { renderServiceNotAvailable } from '../views/serviceNotAvailable';
 export const apiHelp = (req, res) => {
-  console.log('This is the api help',apiDescription);
   res.setHeader('Content-Type', 'application/json');
   res.json(apiDescription);
 };
@@ -44,7 +43,6 @@ export const redirectSlugToUrl = (req, res) => {
   const url = getUrlFromSlug(req.params.slug)
     .then( (url) => {
       logger.info('Controller: redirectSlugToUrl: url = '+url);
-      console.log(typeof url);
       if (url) {
         res.redirect(301,url)
       } else {
@@ -53,17 +51,33 @@ export const redirectSlugToUrl = (req, res) => {
 
     }, (error) => {
       logger.error('redirectSlugToUrl: ',error);
-      if (!error) {
+      if (error) {
         res.status(503).end(renderServiceNotAvailable());
       }
     });
 };
+
+// export const status = (req, res) => {
+//   getStatus()
+//     .then ((result) => {
+//       logger.log('info','getStatus: result = ',result);
+//       res.setHeader('Content-Type', 'application/json');
+//       res.json(result);
+//     }, (error) => {
+//       logger.error('Status: ',error);
+//       if (error) {
+//         res.setHeader('Content-Type', 'application/json');
+//         res.json({error: 'Database not available.'});
+//       }
+//     }
+//     );
+// };
+
 export const testPage = (req, res) => {
   res.end(renderTestPage());
 };
 
 export const lookupDestination = (req, res) => {
-  console.log('reading from db' ,Contact,' with ',req.params.slug);
   const DBresponse = 'fake response from DB';
   res.json(DBresponse);
 };

@@ -3,7 +3,7 @@ import {
   lookupDestination,
   apiHelp,
   redirectSlugToUrl,
-  testPage
+  testPage,
 } from '../controllers/microController';
 import { logger } from '../utils/logger';
 // available routes
@@ -11,7 +11,6 @@ import { logger } from '../utils/logger';
 // /d3djej  = redirection to actual URL
 // /v1/shrink   = shorten url (body contains encoded long URL)
 // /v1/lookup/de3df3 = lookup slug
-
 
 // extract this into env vars
 const APIVERSION = 'v1';
@@ -38,6 +37,10 @@ const routes = (app) => {
     // DELETE URL??
     .delete( (req,res) =>
       res.send('DELETE request successfull!!'));
+  // future version
+  // app.route(`/${APIVERSION}/status`)
+  //   .get(status);
+
   app.route('/testPage')
     .get(testPage);
 
