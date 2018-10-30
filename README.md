@@ -30,15 +30,17 @@ The integer is hashed and bit shifted to appear random.  It is then converted to
 
 Usage
 -----
-
+Install Redis [Redis OSX instructions](https://gist.github.com/tomysmile/1b8a321e7c58499ef9f9441b2faa0aa8)
 
 ```
 git clone https://github.com/microslug/micro-ux.git
 npm install
 npm start
 ```
+The app will configure the database on first run.
 
-Or start local development server using `nodemon ./src/index.js --exec babel-node -e js`
+You can also start the local development server using `nodemon ./src/index.js --exec babel-node -e js`
+
 
 ## API
 
@@ -47,7 +49,7 @@ Usage see https://micro-api.herokuapp.com/
 
 ## Tests
 
-By default all tests are paused using 'xit'. To enable remove 'x' as in 
+By default all tests are paused using 'xit'. To enable remove 'x' as in
 ```
 it('status', function(done){
 ```
