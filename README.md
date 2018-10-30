@@ -44,13 +44,22 @@ The app will configure the database on first run.
 You can also start the local development server using `nodemon ./src/index.js --exec babel-node -e js`
 
 Using [postman](https://www.getpostman.com/), you can create the following POST request:
-localhost:8888/v1/shrink
+```
+http://localhost:8888/v1/shrink
 {
-  url: 'http%3A%2F%2Fwww.startpage.com'
+  url: 'http%3A%2F%2Fwww.startpage.com'  // URL ENCODED string
 }
+```
 
-Note that the url string has to be encoded.
-
+The API will respond with the following:
+```
+{
+    "microURL": "http://microapi:8888/mmgeO8",
+    "destinationURL": "http://www.startpage.com",
+    "slug": "mmgeO8",
+    "write": "ok"
+}
+```
 
 ## API
 
