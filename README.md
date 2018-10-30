@@ -26,9 +26,9 @@ It is responsible for the following:
 * Accept a encoded URL string, generates a 6 character hash and returns a shortened URL (slug).
 * Redirect slugs to destination URLs and resets the link expiry date.
 
-The api generates slugs from a sequential integer stored in Redis.
+The api generates slugs from a global counter stored in Redis.
 The integer is hashed and bit shifted to appear random.  It is then converted to a base62 number.
-
+To ensure a unique hash the key is checked against the database. If duplicate is found, the global counter is incremented and new slug is generated.
 
 Usage
 -----
