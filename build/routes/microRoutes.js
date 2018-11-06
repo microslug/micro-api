@@ -31,11 +31,11 @@ var routes = function routes(app) {
   app.route('/' + APIVERSION + '/' + LOOKUPAPI + '/:slug').get(_microController.lookupDestination)
   // UPDATE URL here
   .put(function (req, res) {
-    return res.send('PUT request successfull!!');
+    return res.status(501).send('Not implemented.');
   })
   // DELETE URL??
   .delete(function (req, res) {
-    return res.send('DELETE request successfull!!');
+    return res.status(501).send('Not implemented.');
   });
   // future version
   // app.route(`/${APIVERSION}/status`)

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-ux-deployment
+  labels:
+    app: micro-ux
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: micro-ux
+  template:
+    metadata:
+      labels:
+        app: micro-ux
+    spec:
+      containers:
+      - image: microslugs/micro-ux:3
+        imagePullPolicy: Always
+        name: micro-ux
+        resources: {}              
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always       
+
+        

@@ -7,12 +7,14 @@ exports.db = exports.dbKeySize = exports.dbConnected = undefined;
 
 var _logger = require('../utils/logger');
 
+require('dotenv').config(); /********************************************************************************
+                             *
+                             * Initialize Redis DB
+                             *
+                             ********************************************************************************/
+
 var promiseFactory = require('when').promise,
-    redis = require('promise-redis')(promiseFactory); /********************************************************************************
-                                                       *
-                                                       * Initialize Redis DB
-                                                       *
-                                                       ********************************************************************************/
+    redis = require('promise-redis')(promiseFactory);
 
 var client = void 0;
 
@@ -24,6 +26,14 @@ if (process.env.REDISTOGO_URL) {
     port: rtg.port
   });
   client.auth(rtg.auth.split(':')[1]);
+} else if (process.env.K8SPASSWORD) {
+  // kubernetes
+  console.log('got K8S');
+  client = redis.createClient({
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.K8SPASSWORD
+  });
 } else {
   // local
   client = redis.createClient({

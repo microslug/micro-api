@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-api-deployment
+  labels:
+    app: micro-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: micro-api
+  template:
+    metadata:
+      labels:
+        app: micro-api
+    spec:
+      containers:
+      - image: microslugs/micro-api:3
+        imagePullPolicy: Always
+        name: micro-api
+        resources: {}
+        env:
+        - name: K8SPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: rpassword
+        - name: REDIS_HOST
+          value: "micro-redis-master"
+        - name: PORT
+          value: "80"          
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always       

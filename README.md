@@ -55,7 +55,7 @@ The API will respond with the following:
 ```
 {
     "microURL": "http://microapi:8888/mmgeO8",
-    "destinationURL": "http://www.startpage.com",
+    "destinationURL": "http%3A%2F%2Fwww.startpage.com",
     "slug": "mmgeO8",
     "write": "ok"
 }

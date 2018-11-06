@@ -33,10 +33,12 @@ const routes = (app) => {
     .get(lookupDestination)
     // UPDATE URL here
     .put((req,res) =>
-      res.send('PUT request successfull!!'))
+      res.status(501)
+        .send('Not implemented.'))
     // DELETE URL??
     .delete( (req,res) =>
-      res.send('DELETE request successfull!!'));
+      res.status(501)
+       .send('Not implemented.'))
   // future version
   // app.route(`/${APIVERSION}/status`)
   //   .get(status);
