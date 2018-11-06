@@ -11,7 +11,7 @@ import { db, dbConnected } from './initDB';
 import { generateSlug } from './slugCreator';
 import { logger } from '../utils/logger';
 import { getDestinationUrl } from './getDestinationUrl';
-// import { getDatabaseSize } from './getDatabaseSize';
+import { getDataBaseSize } from './getDataBaseSize';
 
 
 
@@ -57,22 +57,20 @@ export const getUrlFromSlug = (slug) => {
   });
 };
 
-// export const getStatus = () => {
-//   //console.log('getUrlFromSlug, Database size: ',dbKeySize);
-//   logger.info('  Model: getStatus:',dbConnected);
-//   if (!dbConnected) return Promise.reject(false);
-//   logger.info('  Model: getStatus: HERE',dbConnected);
-//
-//   return new Promise( (resolve,reject) => {
-//     console.log('ok')
-//     const status = getDatabaseSize(db)
-//       .then((status) =>{
-//         logger.info('  Model: getStatus: status='+status);
-//         resolve (status);
-//       })
-//       .catch((status) => {
-//         logger.error('  Model: getStatus: status='+status);
-//         resolve(status);
-//       });
-//   });
-// };
+export const getSize = () => {
+  if (!dbConnected) return Promise.reject(false);
+  logger.info('  Model: getSize:');
+
+  return new Promise( (resolve,reject) => {
+    console.log('ok')
+    getDataBaseSize(db)
+      .then((status) =>{
+        logger.info('  Model: getSize: status='+status);
+        resolve (status);
+      })
+      .catch((status) => {
+        logger.error('  Model: getSize: status='+status);
+        resolve(status);
+      });
+  });
+};

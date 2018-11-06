@@ -8,13 +8,13 @@ import { logger } from '../utils/logger';
 export const getDataBaseSize = (db) => {
   logger.info('    SubModel: getDataBaseSize:');
   return new Promise( (resolve,reject) => {
-    db.get('slugCounter').then ( (reply,error) => {
+    db.get('slugCounter').then ( (size,error) => {
       if (error) {
-        logger.error(error);
+        logger.error('    SubModel: getDataBaseSize:',error);
         reject(error);
       }
-      logger.log('info','getDataBaseSize = '+reply);
-      resolve(reply);
+      logger.log('info','getDataBaseSize = '+size);
+      resolve({'NumberOfSlugs': size});
 
     });
   });

@@ -16,6 +16,24 @@ export const apiDescription = {
         method: 'get',
         example: '/Jod7G0',
       },
+      {
+        description: 'Returns the number of slugs in database.',
+        route: '/v1/size',
+        method: 'get',
+        example: '/v1/size',
+        returns: {
+          "NumberOfSlugs": "3"
+        }
+      },
+      {
+        description: 'Returns saved URL per given slug',
+        route: '/v1/lookup/[slug]',
+        method: 'get',
+        example: '/v1/lookup/Jod7G0',
+        returns: {
+          "url": "http%3A%2F%2Fwww.startpage.com"
+        }
+      },
       { route: '/v1/shrink',
         description: 'Accepts url-encoded string that is stored in a database then returns the shortened version',
         method: 'post',

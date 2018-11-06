@@ -4,6 +4,8 @@ import {
   apiHelp,
   redirectSlugToUrl,
   testPage,
+  size,
+  makeSlug,
 } from '../controllers/microController';
 import { logger } from '../utils/logger';
 // available routes
@@ -16,6 +18,7 @@ import { logger } from '../utils/logger';
 const APIVERSION = 'v1';
 const SHRINKAPI = 'shrink';
 const LOOKUPAPI = 'lookup';
+const SIZEAPI = 'size';
 
 const routes = (app) => {
   // Documentation page
@@ -40,8 +43,11 @@ const routes = (app) => {
       res.status(501)
        .send('Not implemented.'))
   // future version
-  // app.route(`/${APIVERSION}/status`)
-  //   .get(status);
+  app.route(`/${APIVERSION}/${SIZEAPI}`)
+    .get(size);
+  // for testing
+  app.route('/v1/makeslug/:counter')
+    .get(makeSlug);
 
   app.route('/testPage')
     .get(testPage);
