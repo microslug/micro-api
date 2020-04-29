@@ -16,13 +16,13 @@ var _logger = require('../utils/logger');
 var getDataBaseSize = exports.getDataBaseSize = function getDataBaseSize(db) {
   _logger.logger.info('    SubModel: getDataBaseSize:');
   return new Promise(function (resolve, reject) {
-    db.get('slugCounter').then(function (reply, error) {
+    db.get('slugCounter').then(function (size, error) {
       if (error) {
-        _logger.logger.error(error);
+        _logger.logger.error('    SubModel: getDataBaseSize:', error);
         reject(error);
       }
-      _logger.logger.log('info', 'getDataBaseSize = ' + reply);
-      resolve(reply);
+      _logger.logger.log('info', 'getDataBaseSize = ' + size);
+      resolve({ 'NumberOfSlugs': size });
     });
   });
 };

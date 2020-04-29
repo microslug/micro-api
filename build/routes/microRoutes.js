@@ -18,6 +18,7 @@ var _logger = require('../utils/logger');
 var APIVERSION = 'v1';
 var SHRINKAPI = 'shrink';
 var LOOKUPAPI = 'lookup';
+var SIZEAPI = 'size';
 
 var routes = function routes(app) {
   // Documentation page
@@ -38,8 +39,9 @@ var routes = function routes(app) {
     return res.status(501).send('Not implemented.');
   });
   // future version
-  // app.route(`/${APIVERSION}/status`)
-  //   .get(status);
+  app.route('/' + APIVERSION + '/' + SIZEAPI).get(_microController.size);
+  // for testing
+  app.route('/v1/makeslug/:counter').get(_microController.makeSlug);
 
   app.route('/testPage').get(_microController.testPage);
 

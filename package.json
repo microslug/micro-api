@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src -s",
-    "build": "npm run clean && npm run build-babel",
+    "build": "npm run clean && npm run build-babel --require babel-polyfill",
     "start": "npm run build && node ./build/index.js",
     "start:dev": "nodemon ./src/index.js --exec babel-node -e js",
     "test": "mocha ./src/**/*.js ./test/*.js -w --require babel-core/register"
@@ -14,20 +14,23 @@
   "author": "Tom Lanhaus",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^4.2.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
-    "mocha": "^5.2.0",
+    "kubernetes-client": "^6.3.2",
+    "mocha": "^7.1.2",
     "promise-redis": "0.0.5",
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "supertest": "^3.3.0",
     "when": "^3.7.8",
-    "winston": "^3.1.0",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "winston": "^3.1.0"
   }
 }

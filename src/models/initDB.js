@@ -22,7 +22,7 @@ if (process.env.REDISTOGO_URL) {
   client.auth(rtg.auth.split(':')[1]);
 } else if (process.env.K8SPASSWORD) {
   // kubernetes
-  console.log('got K8S');
+  logger.info('Connecting to Kubernetes Redis instance.');
   client = redis.createClient({
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,

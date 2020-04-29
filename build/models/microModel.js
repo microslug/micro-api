@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUrlFromSlug = exports.writeNewUrl = undefined;
+exports.getSize = exports.getUrlFromSlug = exports.writeNewUrl = undefined;
 
 var _initDB = require('./initDB');
 
@@ -13,16 +13,7 @@ var _logger = require('../utils/logger');
 
 var _getDestinationUrl = require('./getDestinationUrl');
 
-// import { getDatabaseSize } from './getDatabaseSize';
-
-
-/********************************************************************************
- *
- * Models
- * Simple DB Schema
- * --slug
- * --destination
- ********************************************************************************/
+var _getDataBaseSize = require('./getDataBaseSize');
 
 var writeNewUrl = exports.writeNewUrl = function writeNewUrl(url) {
   if (!_initDB.dbConnected) return Promise.reject(false);
@@ -45,6 +36,14 @@ var writeNewUrl = exports.writeNewUrl = function writeNewUrl(url) {
 };
 
 // Always returns a URL!!
+/********************************************************************************
+ *
+ * Models
+ * Simple DB Schema
+ * --slug
+ * --destination
+ ********************************************************************************/
+
 var getUrlFromSlug = exports.getUrlFromSlug = function getUrlFromSlug(slug) {
   //console.log('getUrlFromSlug, Database size: ',dbKeySize);
   _logger.logger.info('  Model: getUrlFromSlug: slug =' + slug);
@@ -63,23 +62,19 @@ var getUrlFromSlug = exports.getUrlFromSlug = function getUrlFromSlug(slug) {
   });
 };
 
-// export const getStatus = () => {
-//   //console.log('getUrlFromSlug, Database size: ',dbKeySize);
-//   logger.info('  Model: getStatus:',dbConnected);
-//   if (!dbConnected) return Promise.reject(false);
-//   logger.info('  Model: getStatus: HERE',dbConnected);
-//
-//   return new Promise( (resolve,reject) => {
-//     console.log('ok')
-//     const status = getDatabaseSize(db)
-//       .then((status) =>{
-//         logger.info('  Model: getStatus: status='+status);
-//         resolve (status);
-//       })
-//       .catch((status) => {
-//         logger.error('  Model: getStatus: status='+status);
-//         resolve(status);
-//       });
-//   });
-// };
+var getSize = exports.getSize = function getSize() {
+  if (!_initDB.dbConnected) return Promise.reject(false);
+  _logger.logger.info('  Model: getSize:');
+
+  return new Promise(function (resolve, reject) {
+    console.log('ok');
+    (0, _getDataBaseSize.getDataBaseSize)(_initDB.db).then(function (status) {
+      _logger.logger.info('  Model: getSize: status=' + status);
+      resolve(status);
+    }).catch(function (status) {
+      _logger.logger.error('  Model: getSize: status=' + status);
+      resolve(status);
+    });
+  });
+};
 //# sourceMappingURL=microModel.js.map

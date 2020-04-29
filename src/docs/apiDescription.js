@@ -34,6 +34,15 @@ export const apiDescription = {
           "url": "http%3A%2F%2Fwww.startpage.com"
         }
       },
+      {
+        description: 'Little helper to translate counter to slugs',
+        route: '/v1/makeslug/[number]',
+        method: 'get',
+        example: '/v1/makeslug/42',
+        returns: {
+          "slug": "mmHaRF"
+        }
+      },
       { route: '/v1/shrink',
         description: 'Accepts url-encoded string that is stored in a database then returns the shortened version',
         method: 'post',

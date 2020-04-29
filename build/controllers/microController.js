@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.lookupDestination = exports.testPage = exports.redirectSlugToUrl = exports.addNewURL = exports.apiHelp = undefined;
+exports.makeSlug = exports.lookupDestination = exports.testPage = exports.size = exports.redirectSlugToUrl = exports.addNewURL = exports.apiHelp = undefined;
 
 var _microModel = require('../models/microModel');
 
@@ -17,10 +17,18 @@ var _renderTestPage = require('../views/renderTestPage');
 
 var _serviceNotAvailable = require('../views/serviceNotAvailable');
 
-// import redis
+var _slugCreator = require('../models/slugCreator');
+
 var apiHelp = exports.apiHelp = function apiHelp(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.json(_apiDescription.apiDescription);
+}; // import redis
+
+
+var dbNotAvailResponse = function dbNotAvailResponse(res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.json({ error: 'Database not available.' });
+  return;
 };
 
 var addNewURL = exports.addNewURL = function addNewURL(req, res) {
@@ -43,8 +51,7 @@ var addNewURL = exports.addNewURL = function addNewURL(req, res) {
   }, function (error) {
     _logger.logger.error('writeNewUrl: ', error);
     if (!error) {
-      res.setHeader('Content-Type', 'application/json');
-      res.json({ error: 'Database not available.' });
+      dbNotAvailResponse(res);
     }
   });
 };
@@ -60,34 +67,62 @@ var redirectSlugToUrl = exports.redirectSlugToUrl = function redirectSlugToUrl(r
     }
   }, function (error) {
     _logger.logger.error('redirectSlugToUrl: ', error);
-    if (error) {
+    if (!error) {
       res.status(503).end((0, _serviceNotAvailable.renderServiceNotAvailable)());
     }
   });
 };
 
-// export const status = (req, res) => {
-//   getStatus()
-//     .then ((result) => {
-//       logger.log('info','getStatus: result = ',result);
-//       res.setHeader('Content-Type', 'application/json');
-//       res.json(result);
-//     }, (error) => {
-//       logger.error('Status: ',error);
-//       if (error) {
-//         res.setHeader('Content-Type', 'application/json');
-//         res.json({error: 'Database not available.'});
-//       }
-//     }
-//     );
-// };
+var size = exports.size = function size(req, res) {
+  _logger.logger.info('Controller: size: ');
+  (0, _microModel.getSize)().then(function (result) {
+    _logger.logger.log('info', 'getSize: result = ', result);
+    res.setHeader('Content-Type', 'application/json');
+    res.json(result);
+  }, function (error) {
+    _logger.logger.error('Controller: size:  ', error);
+    if (!error) {
+      dbNotAvailResponse(res);
+    }
+  });
+};
 
 var testPage = exports.testPage = function testPage(req, res) {
   res.end((0, _renderTestPage.renderTestPage)());
 };
 
 var lookupDestination = exports.lookupDestination = function lookupDestination(req, res) {
-  var DBresponse = 'fake response from DB';
-  res.json(DBresponse);
+  _logger.logger.info('Controller: lookupDestination: ');
+  if (req.params.slug) {
+    (0, _microModel.getUrlFromSlug)(req.params.slug).then(function (url) {
+      _logger.logger.info('Controller: lookupDestination: url = ' + url);
+      if (url) {
+        res.setHeader('Content-Type', 'application/json');
+        res.json({ url: url });
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.json({ error: 'slug not found.' });
+      }
+    }, function (error) {
+      _logger.logger.error('lookupDestination: ', error);
+      if (!error) {
+        dbNotAvailResponse(res);
+      }
+    });
+  } else {
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ error: 'Slug not provided' });
+  }
+};
+
+var makeSlug = exports.makeSlug = function makeSlug(req, res) {
+  if (req.params.counter) {
+    var slug = (0, _slugCreator.counterToSlug)(req.params.counter);
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ slug: slug });
+  } else {
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ error: 'Counter not provided' });
+  }
 };
 //# sourceMappingURL=microController.js.map
